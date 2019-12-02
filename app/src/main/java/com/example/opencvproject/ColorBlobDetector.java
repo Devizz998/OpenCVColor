@@ -11,6 +11,9 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * Process the input rgb matrix looking for the HSV color
+ */
 public class ColorBlobDetector {
     // Lower and Upper bounds for range checking in HSV color space
     private Scalar mLowerBound = new Scalar(0);
@@ -23,19 +26,23 @@ public class ColorBlobDetector {
     private List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
     
     // Cache
-    Mat mPyrDownMat = new Mat();
-    Mat mHsvMat = new Mat();
-    Mat mMask = new Mat();
-    Mat mDilatedMask = new Mat();
-    Mat mHierarchy = new Mat();
+    private Mat mPyrDownMat = new Mat();
+    private Mat mHsvMat = new Mat();
+    private Mat mMask = new Mat();
+    private Mat mDilatedMask = new Mat();
+    private Mat mHierarchy = new Mat();
     
     public void setColorRadius(Scalar radius) {
         mColorRadius = radius;
     }
     
     public void setHsvColor(Scalar hsvColor) {
-        double minH = (hsvColor.val[0] >= mColorRadius.val[0]) ? hsvColor.val[0]-mColorRadius.val[0] : 0;
-        double maxH = (hsvColor.val[0]+mColorRadius.val[0] <= 255) ? hsvColor.val[0]+mColorRadius.val[0] : 255;
+        double minH = (hsvColor.val[0] >= mColorRadius.val[0]) ?
+                      (hsvColor.val[0] - mColorRadius.val[0]) :
+                      0;
+        double maxH = ((hsvColor.val[0] + mColorRadius.val[0]) <= 255) ?
+                      (hsvColor.val[0] + mColorRadius.val[0]) :
+                      255;
         
         mLowerBound.val[0] = minH;
         mUpperBound.val[0] = maxH;
@@ -103,7 +110,19 @@ public class ColorBlobDetector {
         }
     }
     
+    /**
+     *
+     * @return List of points that can be used to highlight the color blob
+     */
     public List<MatOfPoint> getContours() {
-        return mContours;
+        return this.mContours;
+    }
+    
+    /**
+     *
+     * @return true if there is a blob with the HSV color specified, false otherwise
+     */
+    public boolean isThereColor(){
+        return !this.mContours.isEmpty();
     }
 }
