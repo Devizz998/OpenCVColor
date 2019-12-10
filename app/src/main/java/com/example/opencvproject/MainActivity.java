@@ -27,6 +27,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnTouchListener;
 
+/**
+ * @author Mattia De Vivo
+ * @version 1.1 10/12/19
+ * @since 1.0
+ */
 public class MainActivity extends Activity implements OnTouchListener, CvCameraViewListener2 {
     private static final String  TAG              = "OpenCVColor";
     // Matrix used to store rgba frame values
@@ -123,15 +128,23 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         this.mDetector = new ColorBlobDetector();
         this.mDetector2 = new ColorBlobDetector();
         this.mDetector3 = new ColorBlobDetector();
+    
+        /*
+         * OLD Values
+         *
+         * Red = 230, 0, 35, 0
+         * Blue = 0, 0, 170, 0
+         * Yellow = 250, 205, 0, 0
+         */
         
         // Red
-        final Scalar colorToDetectRgba = new Scalar(230, 0, 35, 0);
+        final Scalar colorToDetectRgba = new Scalar(230, 0, 60, 0);
         colorToDetectHsv = this.converScalarRgba2HSV(colorToDetectRgba);
         // Blue
-        final Scalar colorToDetectRgba2 = new Scalar(0, 0, 170, 0);
+        final Scalar colorToDetectRgba2 = new Scalar(0, 0, 255, 0);
         colorToDetectHsv2 = this.converScalarRgba2HSV(colorToDetectRgba2);
         // Yellow
-        final Scalar colorToDetectRgba3 = new Scalar(250, 205, 0, 0);
+        final Scalar colorToDetectRgba3 = new Scalar(255, 255, 0, 0);
         colorToDetectHsv3 = this.converScalarRgba2HSV(colorToDetectRgba3);
         
         this.SPECTRUM_SIZE = new Size(200, 64);
