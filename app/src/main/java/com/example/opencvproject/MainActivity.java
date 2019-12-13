@@ -29,7 +29,7 @@ import android.view.View.OnTouchListener;
 
 /**
  * @author Mattia De Vivo
- * @version 1.1 10/12/19
+ * @version 1.2 13/12/19
  * @since 1.0
  */
 public class MainActivity extends Activity implements OnTouchListener, CvCameraViewListener2 {
@@ -128,26 +128,19 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         this.mDetector = new ColorBlobDetector();
         this.mDetector2 = new ColorBlobDetector();
         this.mDetector3 = new ColorBlobDetector();
-    
-        /*
-         * OLD Values
-         *
-         * Red = 230, 0, 35, 0
-         * Blue = 0, 0, 170, 0
-         * Yellow = 250, 205, 0, 0
-         */
         
         // Red
         final Scalar colorToDetectRgba = new Scalar(230, 0, 60, 0);
         colorToDetectHsv = this.converScalarRgba2HSV(colorToDetectRgba);
         // Blue
-        final Scalar colorToDetectRgba2 = new Scalar(0, 0, 255, 0);
+        final Scalar colorToDetectRgba2 = new Scalar(0, 0, 165, 0);
         colorToDetectHsv2 = this.converScalarRgba2HSV(colorToDetectRgba2);
         // Yellow
         final Scalar colorToDetectRgba3 = new Scalar(255, 255, 0, 0);
         colorToDetectHsv3 = this.converScalarRgba2HSV(colorToDetectRgba3);
         
-        this.SPECTRUM_SIZE = new Size(200, 64);
+        // Initial value = (200, 64)
+        this.SPECTRUM_SIZE = new Size(200, 128);
         this.CONTOUR_COLOR = new Scalar(0, 255, 0, 255);
     
         // Set the color to be detected by each ColorBlobDetector

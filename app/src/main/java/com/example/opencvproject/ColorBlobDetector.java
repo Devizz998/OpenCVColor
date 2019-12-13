@@ -12,17 +12,20 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 /**
+ * @author Mattia De Vivo
  * Process the input rgb matrix looking for the HSV color
+ *
  */
 public class ColorBlobDetector {
     // Lower and Upper bounds for range checking in HSV color space
     private Scalar mLowerBound = new Scalar(0);
     private Scalar mUpperBound = new Scalar(0);
     // Minimum contour area in percent for contours filtering
-    private static double mMinContourArea = 0.1;
+    // Initial value, less accurate (0.1)
+    private static double mMinContourArea = 0.3;
     // Color radius for range checking in HSV color space
-    // Initial value, more accurate (25, 50, 50, 0)
-    private Scalar mColorRadius = new Scalar(25,50,60,0);
+    // Initial value, more accurate for ball recognition (25, 50, 50, 0)
+    private Scalar mColorRadius = new Scalar(30,125,60,0);
     private Mat mSpectrum = new Mat();
     private List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
     
@@ -33,10 +36,18 @@ public class ColorBlobDetector {
     private Mat mDilatedMask = new Mat();
     private Mat mHierarchy = new Mat();
     
+    /**
+     * Set radius of colors accepted
+     * @param radius
+     */
     public void setColorRadius(Scalar radius) {
         mColorRadius = radius;
     }
     
+    /**
+     * Set the color to be detected by the ColorDetector
+     * @param hsvColor
+     */
     public void setHsvColor(Scalar hsvColor) {
         double minH = (hsvColor.val[0] >= mColorRadius.val[0]) ?
                       (hsvColor.val[0] - mColorRadius.val[0]) :
@@ -71,10 +82,18 @@ public class ColorBlobDetector {
         return mSpectrum;
     }
     
+    /**
+     * Set minimum detectable area
+     * @param area
+     */
     public void setMinContourArea(double area) {
         mMinContourArea = area;
     }
     
+    /**
+     * Process input image in Mat format
+     * @param rgbaImage
+     */
     public void process(Mat rgbaImage) {
         Imgproc.pyrDown(rgbaImage, mPyrDownMat);
         Imgproc.pyrDown(mPyrDownMat, mPyrDownMat);
